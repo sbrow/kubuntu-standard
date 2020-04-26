@@ -1,0 +1,28 @@
+{
+  "variables": {
+    "cloud_token": "{{ env `CLOUD_TOKEN` }}"
+  },
+  "builders": [
+    {
+      "type": "vagrant",
+      "source_path": "hashicorp/bionic64",
+      "communicator": "ssh",
+      "provider": "virtualbox"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./provision.sh",
+      "expect_disconnect": true
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant-cloud",
+      "box_tag": "sbrow/kubuntu-standard",
+      "access_token": "{{ user `cloud_token` }}",
+      "version": "2020.05"
+    }
+  ]
+}
